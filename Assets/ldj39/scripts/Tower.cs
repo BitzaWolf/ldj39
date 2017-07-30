@@ -2,6 +2,7 @@
 
 public class Tower : Building
 {
+    [Header("Tower Specifics")]
     public float SearchRadius = 10;
     public float attackCooldown = 3;
 
@@ -11,7 +12,7 @@ public class Tower : Building
 
     void Start()
     {
-
+        curHealth = startingHealth;
     }
 
     protected override void updateActive()

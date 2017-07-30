@@ -10,6 +10,7 @@ public abstract class Building : MonoBehaviour
     public int startingHealth = 100;
     public int buildingCost = 50;
     public int powerOccupy = 50;
+    public float iFrames = 0.5f;
 
     public delegate void ActivateEvent();
     public event ActivateEvent OnActivation;
@@ -20,12 +21,16 @@ public abstract class Building : MonoBehaviour
     public delegate void DeathEvent();
     public event DeathEvent OnDeath;
 
-    protected int curHealth;
+    [Header("Pseudo Privates")] // Please ignore this TERRIBLE programming practice
+    public int curHealth;
+
+    // Back to protected/private members
     protected bool isActive = true;
+    protected float iFrameTimer = 0;
 
 	void Start ()
     {
-        curHealth = startingHealth;
+        
 	}
 
     private void Update()
@@ -34,6 +39,24 @@ public abstract class Building : MonoBehaviour
             updateActive();
         else
             updateDeactive();
+
+        if (iFrameTimer > 0)
+            iFrameTimer -= Time.deltaTime;
+    }
+
+    private void commonDeactivate()
+    {
+        GameManager.gm.addPower(powerOccupy);
+    }
+
+    public bool canActivate()
+    {
+        return GameManager.gm.curPower >= powerOccupy;
+    }
+
+    private void commonActivate()
+    {
+        GameManager.gm.consumePower(powerOccupy);
     }
 
     protected abstract void updateActive();
@@ -49,6 +72,8 @@ public abstract class Building : MonoBehaviour
         if (curHealth <= 0)
         {
             curHealth = 0;
+            commonDeactivate();
+            onDeactivate();
             OnDeath();
         }
     }
@@ -80,6 +105,18 @@ public abstract class Building : MonoBehaviour
         {
             onDeactivate();
             OnDeactivation();
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            if (iFrameTimer > 0)
+                return;
+
+            iFrameTimer = iFrames;
+            takeDamage(collision.gameObject.GetComponent<Enemy>().damage);
         }
     }
 }

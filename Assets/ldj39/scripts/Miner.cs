@@ -4,7 +4,7 @@ public class Miner : Building
 {
     void Start()
     {
-
+        curHealth = startingHealth;
     }
 
     void Update()
