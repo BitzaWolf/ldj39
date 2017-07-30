@@ -119,4 +119,9 @@ public abstract class Building : MonoBehaviour
             takeDamage(collision.gameObject.GetComponent<Enemy>().damage);
         }
     }
+
+    public bool isDead()
+    {
+        return (curHealth <= 0);
+    }
 }

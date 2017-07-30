@@ -74,6 +74,18 @@ public class Enemy : MonoBehaviour
 
     private void onTargetDeath()
     {
+        Tower t = target.GetComponent<Tower>();
+        if (t != null)
+        {
+            t.OnDeath -= onTargetDeath;
+        }
+
+        Miner m = target.GetComponent<Miner>();
+        if (m != null)
+        {
+            m.OnDeath -= onTargetDeath;
+        }
+
         target = GameManager.gm.go_MainTower;
     }
 
@@ -96,6 +108,7 @@ public class Enemy : MonoBehaviour
             health = 0;
             GameManager.gm.addPower(power);
             OnDeath();
+            Destroy(gameObject);
         }
     }
 
