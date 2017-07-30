@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 8592cbde258e62e46a46c4670ed5fd09
+timeCreated: 1501366032
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Hussar Preview
+  fontNames:
+  - Hussar Preview
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

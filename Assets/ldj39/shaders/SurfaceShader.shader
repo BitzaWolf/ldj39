@@ -14,23 +14,23 @@ Shader "Bitzawolf/Basic Surface"
 
     SubShader
 	{
-		Tags { "RenderType" = "Opaque" }
+		Tags { "RenderType" = "Transparent" }
 
 		CGPROGRAM
 		#pragma surface surf Custom
 
 		half4 LightingCustom (SurfaceOutput s, half3 lightDir, half atten)
 		{
+			half lightness = (_LightColor0.b + _LightColor0.r) / 2;
+
 			half NdotL = dot (s.Normal, lightDir);
 			half diff = NdotL * 0.5 + 0.5;
 
 			half4 c;
-			c.rgb = s.Albedo * (diff * atten) * _LightColor0.b;
-
-			c.a = s.Alpha;
+			c.rgb = s.Albedo * (diff * atten) * lightness;
 
 			float average = (c.r + c.g + c.b) / 3;
-			half4 greyscale = half4(average, average, average, c.a);
+			half4 greyscale = half4(average, average, average, 1);
 
 			return lerp(greyscale, c, _LightColor0.r);
 		}
@@ -46,6 +46,7 @@ Shader "Bitzawolf/Basic Surface"
 		void surf (Input IN, inout SurfaceOutput o)
 		{
 			o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb * _Color;
+			o.Alpha = _Color.a;
 		}
 		ENDCG
     }
