@@ -75,6 +75,7 @@ public abstract class Building : MonoBehaviour
             commonDeactivate();
             onDeactivate();
             OnDeath();
+            Destroy(gameObject);
         }
     }
 

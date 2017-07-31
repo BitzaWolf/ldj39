@@ -75,11 +75,12 @@ public class Tower : Building
         }
 
         // reposition laser
-        Vector3 diff = Vector3.Normalize(target.transform.position - targetLightning.transform.position);
+        Vector3 diff = targetLightning.transform.position - target.transform.position;
+        diff = Vector3.Normalize(diff);
         float rotZ = Mathf.Asin(diff.y) * 180 / Mathf.PI;
-        float rotY = Mathf.Asin(diff.z) * 180 / Mathf.PI;
-        rotVector.Set(0, -rotY, rotZ);
-        rotQuat.eulerAngles = rotVector;
+        float rotY = 180 + Mathf.Atan2(diff.z, diff.x) * 180 / Mathf.PI;
+        rotVector.Set(0, -rotY, -rotZ);
+        rotQuat = Quaternion.Euler(rotVector);
         targetLightning.transform.rotation = rotQuat;
 
         // if attack's on CD. Just wait.
